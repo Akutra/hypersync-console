@@ -15,8 +15,6 @@ namespace hypersync
         private DisplayManager ScreenPrinter;
         private configLoader configHandler { get; set; }
 
-        string[] exclusionList = { "$RECYCLE.BIN", "System Volume Information", "WindowsImageBackup", "RECYCLER" };
-        string[] exclusionFileList = { "container.dat", "Thumbs.db", "Desktop.ini", "~$" };
         private bool StopCopy = false, skipFile = false, AnalyzeOnly = false;
         public string DestPath = "";
         public string SourcePath = "";
@@ -369,9 +367,9 @@ namespace hypersync
         {
             bool rt = false;
 
-            for (int x=0; x < exclusionList.Length; x++) // Fastest loop mechanizm for this repetative task
+            for (int x=0; x < Constants.exclusionList.Length; x++) // Fastest loop mechanizm for this repetative task
             {
-                if (file.Contains(exclusionList[x]))
+                if (file.Contains(Constants.exclusionList[x]))
                 {
                     rt = true;
                     break;
@@ -385,9 +383,9 @@ namespace hypersync
         {
             bool rt = false;
 
-            for (int x = 0; x < exclusionFileList.Length; x++) // Fastest loop mechanizm for this repetative task
+            for (int x = 0; x < Constants.exclusionFileList.Length; x++) // Fastest loop mechanizm for this repetative task
             {
-                if (file.Contains(exclusionFileList[x]))
+                if (file.Contains(Constants.exclusionFileList[x]))
                 {
                     rt = true;
                     break;
