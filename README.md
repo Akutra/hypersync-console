@@ -52,20 +52,30 @@ To build the application from source code, install Visual Studio (Windows) or Mo
 - Visual Studio or MonoDevelop
 - .NET 4.8 (Visual Studio)
 
+Prepare MonoDevelop
+- Download your desired target (e.g. mono-6.8.0-ubuntu-16.04-x64)
+  ``` mkbundle --fetch-target mono-6.8.0-ubuntu-16.04-x64 ```
+- Locate the machine.config file (e.g. ~/.mono/targets/mono-6.8.0-ubuntu-16.04-x64/etc/mono/4.5/machine.config)
+- Modify the machine.config file remove the references to "$mono_libdir/" in front of all libmono-native.so
+- Locate libmono-native.so (e.g. /usr/lib/libmono-native.so) because you will need the path for mkbundle.
 
-### Build the App
+
+### Build the App on Linux
 
 Change install prefix if needed:
 
 ```bash
+cd ~/mono
 git clone https://github.com/Akutra/hypersync-console.git
-cd hypersync
+cd hypersync-console/hypersync
+msbuild hypersync.csproj -p:Platform=x64,Configuration=Release
+mkbundle -o hypersync --cross mono-6.8.0-ubuntu-16.04-x64 bin/Win/x64/Release/Hypersync.exe --machine-config /etc/mono/4.5/machine.config --library /usr/lib/libmono-native.so
 ```
 
 You can now run the built app.
 
 ```bash
-hypersync v
+./hypersync v
 ```
 
 ## Contributions
