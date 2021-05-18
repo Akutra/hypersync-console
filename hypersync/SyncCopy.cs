@@ -11,6 +11,7 @@ namespace hypersync
     public class SyncCopy
     {
         public reportdata result_data = new reportdata();
+        public List<string> UserExclusion = new List<string>();
         private DisplayManager ScreenPrinter;
         private configLoader configHandler { get; set; }
 
@@ -157,7 +158,7 @@ namespace hypersync
                             result_data.total_missingdest++;
                         }
 
-                        if (copyCurFile)
+                        if (copyCurFile && !ToExcludeFile(cFile) )
                         {
                             if (!AnalyzeOnly)
                             {
@@ -185,10 +186,22 @@ namespace hypersync
             }
 
             // Copy the subfolders
-            if (!StopCopy)
+            if (StopCopy == false && configHandler.ConfigData.nofolders == false)
             {
                 ScanFolders(SourceFolder);
             }
+        }
+
+        private bool ToExcludeFile(string full_path)
+        {
+            var finds = this.UserExclusion.Where(p => (!p.EndsWith(this.folder_delimiter.ToString()) && p == full_path));
+            return finds.Count() > 0;
+        }
+
+        private bool ToExcludeFolder(string full_path)
+        {
+            var finds = this.UserExclusion.Where(p => (p.EndsWith(this.folder_delimiter.ToString()) && p.Trim(this.folder_delimiter) == full_path));
+            return finds.Count() > 0;
         }
 
         private void ScanFolders(string SourceFolder)
@@ -200,7 +213,7 @@ namespace hypersync
                 SourceFolders = Directory.GetDirectories(SourceFolder);
                 foreach (string cFolder in SourceFolders)
                 {
-                    if (!exclusionCheck(cFolder))
+                    if (!exclusionCheck(cFolder) && !ToExcludeFolder(cFolder))
                     {
 
                         tsrc = cFolder;
