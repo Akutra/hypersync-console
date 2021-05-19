@@ -1,12 +1,5 @@
 # hypersync
 
-[![Documentation Status]]TBD
-[![Translation Status]]TBD
-[![Linux Build Status]]Successful
-[![macOS Build Status]]TBD
-[![Windows Build Status]]Success
-[![Coverage Status]]TBD
-
 Folder and file synchronizer.
 
 - [Downloads](https://github.com/Akutra/hypersync-console/releases)
