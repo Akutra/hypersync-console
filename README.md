@@ -62,8 +62,6 @@ Prepare MonoDevelop
 
 ### Build the App on Linux
 
-Change install prefix if needed:
-
 ```bash
 cd ~/mono
 git clone https://github.com/Akutra/hypersync-console.git
@@ -76,6 +74,22 @@ You can now run the built app.
 
 ```bash
 ./hypersync v
+```
+### Build the App on Windows
+
+Locate your repos directory (e.g. C:\Users\<user>\source\repos\)
+```
+cd C:\Users\<user>\source\repos
+git clone https://github.com/Akutra/hypersync-console.git
+```
+Open the csproj file in Visual Studio from the repo (e.g. C:\Users\<user>\source\repos\hypersync-console\hypersync\hypersync.csproj
+Compile for x64 Release.
+Place the resulting exe file in a folder referenced by the %path% variable
+
+You can now run the built app.
+
+```bash
+hypersync v
 ```
 
 ## Contributions
