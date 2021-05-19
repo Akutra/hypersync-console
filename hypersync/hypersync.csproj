@@ -29,8 +29,8 @@
     <ProductName>Hypersync</ProductName>
     <PublisherName>Akutra Ramses Atenosis Cea</PublisherName>
     <SuiteName>Hyperconnect</SuiteName>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>1.4.3.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.4.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>

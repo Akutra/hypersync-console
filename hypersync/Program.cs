@@ -9,6 +9,7 @@ namespace hypersync
     {
         static DisplayManager OutputManager = new DisplayManager();
         static configLoader ConfigManager = new configLoader(OutputManager);
+        static List<string> UserExcludes = new List<string>();
         static bool SaveAndExit = false;
 
         /// <summary>
@@ -60,6 +61,7 @@ namespace hypersync
             SyncCopy Synchronizer = new SyncCopy(ConfigManager, OutputManager);
             Synchronizer.SourcePath = ConfigManager.ConfigData.SyncPaths[0].src_folder;
             Synchronizer.DestPath = ConfigManager.ConfigData.SyncPaths[0].dest_folder;
+            Synchronizer.UserExclusion = UserExcludes;
             Synchronizer.CopyFolder();
 
             string final_notice = string.Format("> Synchronization Completed at {0}\n\r", DateTime.Now);
@@ -120,6 +122,9 @@ namespace hypersync
                 case "damaged":
                     ConfigManager.ConfigData.DamagedSource = true;
                     break;
+                case "nofolders":
+                    ConfigManager.ConfigData.nofolders = true;
+                    break;
                 case "src":
                 case "s":
                     AddSrc(parm);
@@ -143,11 +148,15 @@ namespace hypersync
                     OutputManager.AppendToConsole(" [type="); OutputManager.AppendToConsole("<source folder type>", ConsoleColor.White); OutputManager.AppendToConsole("]");
                     OutputManager.AppendToConsole(" [log="); OutputManager.AppendToConsole("<optional file name>", ConsoleColor.White); OutputManager.AppendToConsole("]");
                     OutputManager.AppendToConsole(" [loglevel="); OutputManager.AppendToConsole("<level = 1, 2, or 3>", ConsoleColor.White); OutputManager.AppendToConsole("]");
-                    OutputManager.AppendLineToConsole(" [KeepNewerDest] [damaged] [v or version] [h or help] [w]");
+                    OutputManager.AppendToConsole(" [x="); OutputManager.AppendToConsole("<exclude folder (ends with slash) or file>", ConsoleColor.White); OutputManager.AppendToConsole("]");
+                    OutputManager.AppendLineToConsole(" [KeepNewerDest] [damaged] [v or version] [h or help] [w] [nofolders]");
                     System.Environment.Exit(0);
                     break;
                 case "w":
                     SaveAndExit = true;
+                    break;
+                case "x":
+                    UserExcludes.Add(parm);
                     break;
                 default:
                     // No field name specified

@@ -15,6 +15,7 @@ namespace hypersync
         public bool Migratory { get; set; }
         public bool KeepNewerDest { get; set; }
         public bool DamagedSource { get; set; }
+        public bool nofolders { get; set; }
         public string LogFile { get; set; }
 
         public FolderPath[] SyncPaths;
@@ -27,6 +28,7 @@ namespace hypersync
             this.LogLevel = 3;
             // default log file
             this.LogFile = "synclog.txt";
+            this.nofolders = false;
         }
     }
 

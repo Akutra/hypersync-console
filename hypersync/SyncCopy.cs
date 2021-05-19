@@ -11,11 +11,10 @@ namespace hypersync
     public class SyncCopy
     {
         public reportdata result_data = new reportdata();
+        public List<string> UserExclusion = new List<string>();
         private DisplayManager ScreenPrinter;
         private configLoader configHandler { get; set; }
 
-        string[] exclusionList = { "$RECYCLE.BIN", "System Volume Information", "WindowsImageBackup", "RECYCLER" };
-        string[] exclusionFileList = { "container.dat", "Thumbs.db", "Desktop.ini", "~$" };
         private bool StopCopy = false, skipFile = false, AnalyzeOnly = false;
         public string DestPath = "";
         public string SourcePath = "";
@@ -157,7 +156,7 @@ namespace hypersync
                             result_data.total_missingdest++;
                         }
 
-                        if (copyCurFile)
+                        if (copyCurFile && !ToExcludeFile(cFile) )
                         {
                             if (!AnalyzeOnly)
                             {
@@ -185,10 +184,22 @@ namespace hypersync
             }
 
             // Copy the subfolders
-            if (!StopCopy)
+            if (StopCopy == false && configHandler.ConfigData.nofolders == false)
             {
                 ScanFolders(SourceFolder);
             }
+        }
+
+        private bool ToExcludeFile(string full_path)
+        {
+            var finds = this.UserExclusion.Where(p => (!p.EndsWith(this.folder_delimiter.ToString()) && p == full_path));
+            return finds.Count() > 0;
+        }
+
+        private bool ToExcludeFolder(string full_path)
+        {
+            var finds = this.UserExclusion.Where(p => (p.EndsWith(this.folder_delimiter.ToString()) && p.Trim(this.folder_delimiter) == full_path));
+            return finds.Count() > 0;
         }
 
         private void ScanFolders(string SourceFolder)
@@ -200,7 +211,7 @@ namespace hypersync
                 SourceFolders = Directory.GetDirectories(SourceFolder);
                 foreach (string cFolder in SourceFolders)
                 {
-                    if (!exclusionCheck(cFolder))
+                    if (!exclusionCheck(cFolder) && !ToExcludeFolder(cFolder))
                     {
 
                         tsrc = cFolder;
@@ -356,9 +367,9 @@ namespace hypersync
         {
             bool rt = false;
 
-            for (int x=0; x < exclusionList.Length; x++) // Fastest loop mechanizm for this repetative task
+            for (int x=0; x < Constants.exclusionList.Length; x++) // Fastest loop mechanizm for this repetative task
             {
-                if (file.Contains(exclusionList[x]))
+                if (file.Contains(Constants.exclusionList[x]))
                 {
                     rt = true;
                     break;
@@ -372,9 +383,9 @@ namespace hypersync
         {
             bool rt = false;
 
-            for (int x = 0; x < exclusionFileList.Length; x++) // Fastest loop mechanizm for this repetative task
+            for (int x = 0; x < Constants.exclusionFileList.Length; x++) // Fastest loop mechanizm for this repetative task
             {
-                if (file.Contains(exclusionFileList[x]))
+                if (file.Contains(Constants.exclusionFileList[x]))
                 {
                     rt = true;
                     break;
