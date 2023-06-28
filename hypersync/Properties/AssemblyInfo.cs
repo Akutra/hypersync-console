@@ -7,10 +7,14 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("Hyperconnect Syncronizer")]
 [assembly: AssemblyDescription("Hyperconnect Syncronizer")]
-[assembly: AssemblyConfiguration("")]
+#if (DEBUG)
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
 [assembly: AssemblyCompany("LeapMaker")]
 [assembly: AssemblyProduct("Hypersync")]
-[assembly: AssemblyCopyright("Copyright 2012-2021 Leapmaker LLC")]
+[assembly: AssemblyCopyright("Copyright 2012-2023 Leapmaker LLC")]
 [assembly: AssemblyTrademark("Acute")]
 [assembly: AssemblyCulture("")]
 
